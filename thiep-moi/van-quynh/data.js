@@ -3,7 +3,7 @@
    hoặc mở thiệp bằng đường dẫn  ...?edit=1  để chỉnh bằng giao diện.
    ============================================================ */
 window.DEFAULT_CONFIG = {
-  storageKey: "thiep:van-quynh:v2",
+  storageKey: "thiep:van-quynh:v3",
 
   couple: {
     bride: "Quỳnh",
@@ -61,14 +61,18 @@ window.DEFAULT_CONFIG = {
 
   closing: {
     title: "Trân trọng cảm ơn!",
-    text: "Rất mong được đón tiếp bạn trong ngày vui của chúng mình. Sự có mặt của bạn là niềm vinh hạnh cho gia đình hai họ."
+    // mỗi đoạn cách nhau một dòng trống
+    text: "Chúng tôi rất vui khi được mời bạn đến dự lễ cưới của Quỳnh và Văn – một dấu mốc ý nghĩa trong hành trình chung đôi.\n\nSẽ thật hạnh phúc nếu bạn có thể đến chung vui và cùng lưu giữ những khoảnh khắc đẹp trong ngày đặc biệt này.\n\nRất mong bạn có thể sắp xếp thời gian đến tham dự và cùng chúc phúc cho chúng tôi."
   },
 
-  /* Sổ lưu bút + Xác nhận tham dự: điền "endpoint" (Formspree / Web3Forms / Google Apps Script...)
-     thì hai mục này mới hiện và gửi dữ liệu về đó. Để trống = ẩn. */
+  /* Lưu bút + Xác nhận tham dự: cách nhận dữ liệu (ưu tiên từ trên xuống)
+     1. endpoint: link nhận biểu mẫu (Formspree / Web3Forms / Google Apps Script...) – gửi thẳng, khách không cần làm gì thêm
+     2. phone: số điện thoại cô dâu/chú rể – mở sẵn tin nhắn SMS để khách bấm gửi
+     3. để trống cả hai: mở bảng chia sẻ của điện thoại (Zalo, Messenger...) hoặc sao chép nội dung */
   forms: {
-    endpoint: "",
-    extra: {}                    // ví dụ Web3Forms: { "access_key": "xxxx" }
+    endpoint: "https://api.web3forms.com/submit",
+    extra: { "access_key": "9c69baef-0b81-42f2-a538-ca4a5309f8db", "subject": "Thiệp cưới Quỳnh & Văn – tin nhắn từ khách" },
+    phone: ""                    // ví dụ "0912345678"
   },
 
   hero: "img/p04.jpg",

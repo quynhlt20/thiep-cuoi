@@ -68,16 +68,68 @@
   }
 
   /* ---------- phong bì ---------- */
+  // đường gấp nắp + tem thư
+  function envFx() {
+    var s = sv("svg", { class: "fx", viewBox: "0 0 480 950", preserveAspectRatio: "none" });
+    var defs = sv("defs", {}, [
+      sv("filter", { id: "sh", x: "-5%", y: "-5%", width: "110%", height: "115%" }, sv("feDropShadow", { dx: "0", dy: "5", stdDeviation: "4", "flood-color": "#7a3b42", "flood-opacity": ".28" })),
+      sv("filter", { id: "sh2", x: "-20%", y: "-20%", width: "140%", height: "140%" }, sv("feDropShadow", { dx: "1", dy: "3", stdDeviation: "2", "flood-color": "#000", "flood-opacity": ".35" }))
+    ]);
+    s.appendChild(defs);
+    // nắp phong bì
+    s.appendChild(sv("polygon", { points: "-4,282 240,472 484,290 484,-4 -4,-4", fill: "none" }));
+    s.appendChild(sv("path", { d: "M-4 282 L240 472 L484 290 L484 950 L-4 950 Z", fill: "rgba(255,240,240,.10)", filter: "url(#sh)" }));
+    s.appendChild(sv("path", { d: "M-4 284 L240 474 L484 292", fill: "none", stroke: "rgba(255,255,255,.55)", "stroke-width": "1.4" }));
+    // hai nếp gấp dưới
+    s.appendChild(sv("path", { d: "M240 500 L-4 640 M240 500 L484 648", fill: "none", stroke: "rgba(255,255,255,.55)", "stroke-width": "1.3" }));
+    s.appendChild(sv("path", { d: "M240 504 L-4 644 M240 504 L484 652", fill: "none", stroke: "rgba(150,80,88,.22)", "stroke-width": "1.3" }));
+    // tem
+    function stamp(x, y, w, hh, rot, c1, c2, mark) {
+      var g = sv("g", { transform: "translate(" + x + " " + y + ") rotate(" + rot + " " + w / 2 + " " + hh / 2 + ")", filter: "url(#sh2)" });
+      g.appendChild(sv("rect", { width: w, height: hh, fill: "#f2e9d4" }));
+      g.appendChild(sv("rect", { x: 6, y: 6, width: w - 12, height: hh - 12, fill: c1 }));
+      g.appendChild(sv("rect", { x: 10, y: 10, width: w - 20, height: hh - 20, fill: "none", stroke: c2, "stroke-width": "1.2", opacity: ".7" }));
+      g.appendChild(sv("ellipse", { cx: w / 2, cy: hh * 0.45, rx: w * 0.2, ry: hh * 0.22, fill: c2, opacity: ".55" }));
+      g.appendChild(sv("path", { d: "M" + w * 0.22 + " " + (hh - 14) + " Q" + w / 2 + " " + hh * 0.52 + " " + w * 0.78 + " " + (hh - 14) + " Z", fill: c2, opacity: ".5" }));
+      // lỗ răng cưa
+      g.appendChild(sv("rect", { width: w, height: hh, fill: "none", stroke: "#e7bcc0", "stroke-width": "5", "stroke-dasharray": "0 8.5", "stroke-linecap": "round" }));
+      if (mark) { g.appendChild(sv("circle", { cx: w * 0.6, cy: hh * 0.6, r: 26, fill: "none", stroke: "#4b3a3a", "stroke-width": "1.5", opacity: ".6" })); g.appendChild(sv("path", { d: "M" + (w * 0.6 - 24) + " " + (hh * 0.6 - 5) + " h48 M" + (w * 0.6 - 24) + " " + (hh * 0.6 + 5) + " h48", stroke: "#4b3a3a", "stroke-width": "1.2", opacity: ".6" })); }
+      return g;
+    }
+    s.appendChild(stamp(300, -6, 82, 100, -3, "#6f9f8b", "#2f5f4d"));
+    s.appendChild(stamp(376, -10, 92, 112, 2, "#9a8140", "#5b4a1b"));
+    s.appendChild(stamp(354, 92, 106, 102, -1, "#cdbf8f", "#8a7b49", true));
+    return s;
+  }
+  // dấu sáp có hoa
+  function sealSvg() {
+    var s = sv("svg", { viewBox: "0 0 100 100" });
+    s.appendChild(sv("defs", {}, [
+      sv("radialGradient", { id: "wx", cx: ".35", cy: ".3", r: ".8" }, [sv("stop", { offset: "0", "stop-color": "#efc08a" }), sv("stop", { offset: ".55", "stop-color": "#c98d52" }), sv("stop", { offset: "1", "stop-color": "#8e5a2b" })]),
+      sv("radialGradient", { id: "wx2", cx: ".4", cy: ".3", r: ".8" }, [sv("stop", { offset: "0", "stop-color": "#d9a468" }), sv("stop", { offset: "1", "stop-color": "#a36a35" })])
+    ]));
+    s.appendChild(sv("path", { d: "M50 3c9 0 12 6 20 7 8 1 15 6 17 14 2 8-3 12-1 20 2 8 7 12 5 20-2 8-9 11-15 15-6 4-9 11-18 11-8 0-11-6-18-9-8-3-16-4-19-12-3-8 3-13 2-20-1-8-7-12-4-20 3-8 11-9 17-13 5-4 8-13 14-13z", fill: "url(#wx)" }));
+    s.appendChild(sv("circle", { cx: 50, cy: 52, r: 31, fill: "url(#wx2)", stroke: "#f3cf9d", "stroke-width": "1.5" }));
+    s.appendChild(sv("circle", { cx: 50, cy: 52, r: 27, fill: "none", stroke: "#8e5a2b", "stroke-width": ".8", opacity: ".7" }));
+    var f = sv("g", { transform: "translate(50 52)", fill: "#e9bb82", stroke: "#8e5a2b", "stroke-width": ".8" });
+    for (var i = 0; i < 5; i++) f.appendChild(sv("ellipse", { cx: 0, cy: -10, rx: 6.5, ry: 9, transform: "rotate(" + i * 72 + ")" }));
+    f.appendChild(sv("circle", { cx: 0, cy: 0, r: 3.5, fill: "#8e5a2b", stroke: "none" }));
+    s.appendChild(f);
+    s.appendChild(sv("path", { d: "M50 63 q-4 12 -14 14 M50 63 q6 10 16 10", fill: "none", stroke: "#8e5a2b", "stroke-width": "1.2", "stroke-linecap": "round", opacity: ".7" }));
+    return s;
+  }
   function names(c) { return c.couple.brideFirst ? [c.couple.bride, c.couple.groom] : [c.couple.groom, c.couple.bride]; }
   function buildEnvelope() {
     var host = document.getElementById("envHost");
     var n = names(cfg);
+    var seal = h("button", { class: "seal", type: "button", "aria-label": "Mở thiệp" });
+    seal.appendChild(sealSvg());
     var env = h("div", { class: "env" }, h("div", { class: "env-card" }, [
-      h("div", { class: "stamps" }, [h("i"), h("i"), h("i")]),
-      h("div", { class: "env-title" }, [h("small", { text: "WELCOME" }), h("small", { text: "TO" }), h("div", { class: "script", text: "Wedding" })]),
-      h("div", { class: "flap" }),
-      h("button", { class: "seal", type: "button", "aria-label": "Mở thiệp", text: "♥" }),
-      h("div", { class: "env-names" }, [h("div", { class: "script", text: n[0] + " & " + n[1] }), h("p", { text: "Trân trọng kính mời" }), h("div", { class: "script", style: "font-size:28px", text: "Quý khách" })]),
+      h("div", { class: "paper" }),
+      envFx(),
+      h("div", { class: "env-title" }, [h("div", { class: "w", text: "WELCOME" }), h("div", { class: "w", text: "TO" }), h("div", { class: "script", text: "Wedding" })]),
+      seal,
+      h("div", { class: "env-names" }, [h("div", { class: "script", text: n[0] + " & " + n[1] }), h("p", { text: "Trân trọng kính mời" }), h("div", { class: "script sm", text: "Quý khách" })]),
       h("div", { class: "env-hint", text: "CHẠM VÀO DẤU SÁP ĐỂ MỞ THIỆP" })
     ]));
     var done = false;
@@ -128,20 +180,16 @@
     var hero = h("section", { class: "hero" }, [
       h("img", { class: "bg", src: safeImg(cfg.hero), alt: n[0] + " & " + n[1] }),
       nameBlock("names"),
-      h("div", { class: "dt" }, [h("b", { text: dd.d }), h("b", { text: dd.m }), h("span", { text: String(dd.y) })]),
+      h("div", { class: "dt" }, [h("span", { text: dd.d }), h("span", { text: dd.m }), h("span", { text: String(dd.y) })]),
       h("div", { class: "scroll" })
     ]);
-    // sắp xếp ngày giờ trong bìa theo kiểu 28 / 11 / 2026
-    hero.querySelector(".dt").innerHTML = "";
-    var dt = hero.querySelector(".dt");
-    dt.appendChild(h("b", { text: dd.d })); dt.appendChild(h("b", { text: dd.m, style: "font-size:24px" })); dt.appendChild(h("span", { text: String(dd.y) }));
 
     /* câu chuyện */
     var story = h("section", { class: "story" }, [
       h("div", { class: "photo" }, h("img", { src: ph("story"), alt: "", loading: "lazy" })),
       h("div", { class: "row rv" }, [
         h("div", {}, [h("h2", { text: cfg.story.title }), h("p", { text: cfg.story.text })]),
-        h("div", { class: "bigdate" }, [h("b", { text: dd.d }), h("b", { text: dd.m }), h("span", { text: String(dd.y) })])
+        h("div", { class: "bigdate" }, [h("span", { text: dd.d }), h("span", { text: dd.m }), h("span", { text: String(dd.y) })])
       ])
     ]);
 
@@ -220,26 +268,52 @@
 
     /* cảm ơn */
     var thanks = h("section", { class: "thanks rv" }, h("div", { class: "box" }, [
-      h("h3", { text: cfg.closing.title }), h("p", { text: cfg.closing.text }), h("div", { class: "sign", text: n[0] + " & " + n[1] })
-    ]));
+      h("h3", { text: cfg.closing.title })
+    ].concat(String(cfg.closing.text).split(/\n\s*\n/).filter(Boolean).map(function (t) { return h("p", { text: t.trim() }); }),
+      [h("div", { class: "sign", text: n[0] + " & " + n[1] })])));
 
     /* lưu bút + xác nhận (chỉ khi có endpoint) */
     var ep = safeUrl(cfg.forms.endpoint);
-    function send(payload, okMsg, form) {
-      var body = Object.assign({}, cfg.forms.extra || {}, payload, { couple: n[0] + " & " + n[1] });
-      fetch(ep, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) })
-        .then(function (r) { if (!r.ok) throw 0; toast(okMsg); form.reset(); })
-        .catch(function () { toast("Gửi chưa được, bạn thử lại sau nhé."); });
+    // gửi: 1) endpoint  2) SMS tới số của cô dâu chú rể  3) bảng chia sẻ / sao chép
+    function send(payload, okMsg, form, text, done) {
+      function ok() { toast(okMsg); form.reset(); if (done) done(); }
+      var phone = String(cfg.forms.phone || "").replace(/[^\d+]/g, "");
+      if (ep) {
+        var body = Object.assign({}, cfg.forms.extra || {}, payload, { couple: n[0] + " & " + n[1] });
+        fetch(ep, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) })
+          .then(function (r) { if (!r.ok) throw 0; ok(); })
+          .catch(function () { toast("Gửi chưa được, bạn thử lại sau nhé."); });
+      } else if (phone) {
+        location.href = "sms:" + phone + "?&body=" + encodeURIComponent(text);
+        toast("Đã mở tin nhắn, bạn bấm gửi giúp chúng mình nhé ♥"); form.reset(); if (done) done();
+      } else if (navigator.share) {
+        navigator.share({ title: "Thiệp cưới " + n[0] + " & " + n[1], text: text }).then(ok).catch(function () {});
+      } else {
+        copy(text); toast("Đã sao chép nội dung, bạn dán gửi cho cô dâu chú rể qua Zalo/Messenger nhé ♥"); form.reset(); if (done) done();
+      }
     }
+    var WK = KEY + ":wishes", mineBox = h("div");
+    function mineLoad() { try { return JSON.parse(localStorage.getItem(WK) || "[]"); } catch (e) { return []; } }
+    function mineDraw() {
+      mineBox.textContent = "";
+      mineLoad().slice(-3).reverse().forEach(function (w) { mineBox.appendChild(h("div", { class: "mine" }, [h("b", { text: w.name }), w.msg])); });
+    }
+    function mineAdd(name, msg) { var l = mineLoad(); l.push({ name: name, msg: msg }); try { localStorage.setItem(WK, JSON.stringify(l.slice(-10))); } catch (e) {} mineDraw(); }
+    mineDraw();
     var guest = null, rsvp = null;
-    if (ep) {
+    {
       var gf = h("form", { class: "frm" }, [
         h("input", { type: "text", name: "name", required: "", placeholder: "Nhập tên của bạn*" }),
         h("textarea", { name: "wish", required: "", placeholder: "Nhập lời chúc của bạn*" }),
         h("button", { class: "btn", type: "submit", text: "Gửi lời chúc" })
       ]);
-      gf.addEventListener("submit", function (e) { e.preventDefault(); send({ type: "Lời chúc", name: gf.name.value, message: gf.wish.value }, "Cảm ơn lời chúc của bạn ♥", gf); });
-      guest = h("section", { class: "band rv" }, [h("h3", { text: "Guest Book" }), h("p", { class: "s", text: "Cảm ơn bạn rất nhiều vì đã gửi những lời chúc tốt đẹp nhất đến đám cưới của chúng mình!" }), gf]);
+      gf.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nm = gf.querySelector("[name=name]").value.trim(), ms = gf.wish.value.trim();
+        send({ type: "Lời chúc", name: nm, message: ms }, "Cảm ơn lời chúc của bạn ♥", gf,
+          "Lời chúc cho đám cưới " + n[0] + " & " + n[1] + " từ " + nm + ": " + ms, function () { mineAdd(nm, ms); });
+      });
+      guest = h("section", { class: "band rv" }, [h("h3", { text: "Guest Book" }), h("p", { class: "s", text: "Cảm ơn bạn rất nhiều vì đã gửi những lời chúc tốt đẹp nhất đến đám cưới của chúng mình!" }), gf, mineBox]);
       var rf = h("form", { class: "frm" }, [
         h("input", { type: "text", name: "name", required: "", placeholder: "Họ và tên *" }),
         h("input", { type: "tel", name: "phone", placeholder: "Số điện thoại" }),
@@ -250,7 +324,12 @@
         ]),
         h("button", { class: "btn", type: "submit", text: "Xác nhận" })
       ]);
-      rf.addEventListener("submit", function (e) { e.preventDefault(); send({ type: "Xác nhận tham dự", name: rf.name.value, phone: rf.phone.value, guests: rf.guests.value, attendance: rf.att.value }, "Đã nhận xác nhận, cảm ơn bạn!", rf); });
+      rf.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var info = { type: "Xác nhận tham dự", name: rf.querySelector("[name=name]").value.trim(), phone: rf.phone.value.trim(), guests: rf.guests.value.trim(), attendance: rf.att.value };
+        send(info, "Đã gửi xác nhận, cảm ơn bạn!", rf,
+          "Xác nhận tham dự đám cưới " + n[0] + " & " + n[1] + " – " + info.name + (info.phone ? " (" + info.phone + ")" : "") + ": " + info.attendance + (info.guests ? ", " + info.guests + " người" : ""));
+      });
       rsvp = h("section", { class: "rsvp rv" }, h("div", { class: "box" }, [h("h3", { text: "Xác Nhận Tham Dự" }), h("p", { class: "s", text: "Việc xác nhận giúp chúng mình chuẩn bị chu đáo hơn. Cảm ơn bạn!" }), rf]));
     }
 
@@ -413,8 +492,9 @@
     ]));
     body.appendChild(group("Lời cảm ơn", [field("Tiêu đề", "closing.title"), field("Nội dung", "closing.text", "area")]));
     body.appendChild(group("Lưu bút & xác nhận tham dự", [
-      field("Link nhận dữ liệu (Formspree / Web3Forms / Google Apps Script). Để trống = ẩn hai mục này", "forms.endpoint", "url"),
-      h("p", { class: "hint", text: "Cần một dịch vụ nhận biểu mẫu miễn phí để lời chúc và xác nhận của khách gửi về email/bảng tính của bạn." })
+      field("Số điện thoại nhận tin (khách bấm gửi là mở sẵn tin nhắn SMS)", "forms.phone", "tel"),
+      field("Link nhận biểu mẫu (Formspree / Web3Forms / Google Apps Script) – nếu có, gửi thẳng không qua tin nhắn", "forms.endpoint", "url"),
+      h("p", { class: "hint", text: "Để trống cả hai: khách sẽ mở bảng chia sẻ của điện thoại (Zalo, Messenger…) hoặc sao chép nội dung." })
     ]));
     body.appendChild(group("Nhạc nền", [field("Đường dẫn file nhạc (ví dụ audio/mot-doi.mp3)", "music"),
       h("p", { class: "hint", text: "Đặt file .mp3 vào thư mục audio/ cạnh index.html rồi tải lên cùng thiệp." })]));
