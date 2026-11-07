@@ -3,7 +3,7 @@
    hoặc mở thiệp bằng đường dẫn  ...?edit=1  để chỉnh bằng giao diện.
    ============================================================ */
 window.DEFAULT_CONFIG = {
-  storageKey: "thiep:van-quynh",
+  storageKey: "thiep:van-quynh:v2",
 
   couple: {
     bride: "Quỳnh",
@@ -12,8 +12,14 @@ window.DEFAULT_CONFIG = {
   },
 
   invite: {
-    lead: "Trân trọng kính mời",
-    text: "Tới dự lễ thành hôn của chúng tôi và chung vui cùng gia đình chúng tôi trong ngày trọng đại này."
+    lead: "Trân trọng kính mời quý khách",
+    text: "Tới dự buổi tiệc chung vui cùng gia đình chúng tôi",
+    banner: "Lễ thành hôn"
+  },
+
+  story: {
+    title: "Love Story",
+    text: "Từ một lần gặp gỡ tình cờ đến lời hẹn ước trọn đời, câu chuyện của chúng mình được viết nên bằng tiếng cười, sự tin tưởng và niềm vui khi tìm thấy nhau."
   },
 
   event: {
@@ -45,7 +51,7 @@ window.DEFAULT_CONFIG = {
   ],
 
   gift: {
-    title: "Hộp mừng cưới",
+    button: "Mừng cưới cô dâu",
     text: "Sự hiện diện của bạn là niềm vui lớn nhất của chúng mình. Nếu muốn gửi lời chúc phúc, bạn có thể quét mã bên dưới.",
     bank: "Vietcombank",
     holder: "LE THI QUYNH",
@@ -58,12 +64,26 @@ window.DEFAULT_CONFIG = {
     text: "Rất mong được đón tiếp bạn trong ngày vui của chúng mình. Sự có mặt của bạn là niềm vinh hạnh cho gia đình hai họ."
   },
 
+  /* Sổ lưu bút + Xác nhận tham dự: điền "endpoint" (Formspree / Web3Forms / Google Apps Script...)
+     thì hai mục này mới hiện và gửi dữ liệu về đó. Để trống = ẩn. */
+  forms: {
+    endpoint: "",
+    extra: {}                    // ví dụ Web3Forms: { "access_key": "xxxx" }
+  },
+
   hero: "img/p04.jpg",
+  photos: {                      // ảnh của từng mục
+    story: "img/p02.jpg",
+    invite: "img/p07.jpg",
+    venue: "img/p09.jpg",
+    closing: "img/p13.jpg"
+  },
   gallery: [
     "img/p01.jpg", "img/p02.jpg", "img/p03.jpg", "img/p04.jpg", "img/p05.jpg",
     "img/p06.jpg", "img/p07.jpg", "img/p08.jpg", "img/p09.jpg", "img/p10.jpg",
     "img/p11.jpg", "img/p12.jpg", "img/p13.jpg"
   ],
 
-  music: ""                     // dán link file .mp3 nếu muốn có nhạc nền
+  /* Nhạc nền "Một đời": đặt file nhạc vào thư mục audio/ với đúng tên dưới đây */
+  music: "audio/mot-doi.mp3"
 };
