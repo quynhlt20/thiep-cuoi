@@ -50,6 +50,8 @@
     return cfg;
   }
   var cfg = loadConfig();
+  try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
+  window.scrollTo(0, 0);
 
   /* ---------- nhạc nền ---------- */
   var au = new Audio(); au.loop = true; au.preload = "none";
@@ -122,19 +124,27 @@
   function buildEnvelope() {
     var host = document.getElementById("envHost");
     var n = names(cfg);
-    var seal = h("button", { class: "seal", type: "button", "aria-label": "Mở thiệp" });
-    seal.appendChild(sealSvg());
+    // ảnh phong bì mẫu làm nền; dòng tên được che bằng một mảng giấy lấy từ chính ảnh rồi viết lại tên cặp đôi
     var env = h("div", { class: "env" }, h("div", { class: "env-card" }, [
-      h("div", { class: "paper" }),
-      envFx(),
-      h("div", { class: "env-title" }, [h("div", { class: "w", text: "WELCOME" }), h("div", { class: "w", text: "TO" }), h("div", { class: "script", text: "Wedding" })]),
-      seal,
-      h("div", { class: "env-names" }, [h("div", { class: "script", text: n[0] + " & " + n[1] }), h("p", { text: "Trân trọng kính mời" }), h("div", { class: "script sm", text: "Quý khách" })]),
+      h("div", { class: "art" }, [
+        h("img", { class: "bgimg", src: "img/envelope.webp", alt: "Thiệp mời cưới " + n[0] + " & " + n[1] }),
+        h("div", { class: "patch" }),
+        h("div", { class: "nm", text: n[0] + " & " + n[1] }),
+        h("button", { class: "sealbtn", type: "button", "aria-label": "Mở thiệp" })
+      ]),
       h("div", { class: "env-hint", text: "CHẠM VÀO DẤU SÁP ĐỂ MỞ THIỆP" })
     ]));
     var done = false;
+    document.body.style.overflow = "hidden";
+    function toTop() {
+      var de = document.documentElement; de.style.scrollBehavior = "auto";
+      window.scrollTo(0, 0); document.body.scrollTop = 0; de.scrollTop = 0;
+      de.style.scrollBehavior = "";
+    }
     function open() {
       if (done) return; done = true;
+      toTop();
+      document.body.style.overflow = "";
       env.classList.add("open");
       if (safeAudio(cfg.music)) au.play().catch(function () {});
       setTimeout(function () { env.classList.add("gone"); }, 1100);
@@ -148,7 +158,9 @@
   function icon(title) {
     var a = { fill: "none", stroke: "currentColor", "stroke-width": "1.6", "stroke-linecap": "round", "stroke-linejoin": "round" };
     var s = sv("svg", { viewBox: "0 0 40 40" });
-    if (/đón|khách|chụp/i.test(title)) { // máy ảnh
+    if (/đón|khách/i.test(title) && !/chụp/i.test(title)) { // người đón khách
+      [sv("circle", Object.assign({ cx: 20, cy: 13, r: 6 }, a)), sv("path", Object.assign({ d: "M8 34c0-8 5-13 12-13s12 5 12 13z" }, a))].forEach(function (e) { s.appendChild(e); });
+    } else if (/chụp|ảnh/i.test(title)) { // máy ảnh
       [sv("rect", Object.assign({ x: 5, y: 12, width: 30, height: 20, rx: 3 }, a)), sv("circle", Object.assign({ cx: 20, cy: 22, r: 6 }, a)), sv("path", Object.assign({ d: "M14 12l2-4h8l2 4" }, a))].forEach(function (e) { s.appendChild(e); });
     } else if (/khai|tiệc|ăn|ẩm/i.test(title)) { // đĩa, dĩa, dao
       [sv("circle", Object.assign({ cx: 20, cy: 21, r: 8 }, a)), sv("path", Object.assign({ d: "M8 8v10M5 8v5a3 3 0 0 0 6 0V8M32 8c-3 2-3 8 0 10v14" }, a))].forEach(function (e) { s.appendChild(e); });
@@ -207,7 +219,8 @@
     /* lịch + địa điểm + hai họ */
     var cells = [];
     ["T2", "T3", "T4", "T5", "T6", "T7", "CN"].forEach(function (x) { cells.push(h("div", { class: "h", text: x })); });
-    for (var b = 0; b < (dd.wd + 6) % 7; b++) cells.push(h("div", { class: "d" }));
+    var firstWd = valid ? new Date(Date.UTC(vn.getUTCFullYear(), vn.getUTCMonth(), 1)).getUTCDay() : 0;   // thứ của ngày mùng 1
+    for (var b = 0; b < (firstWd + 6) % 7; b++) cells.push(h("div", { class: "d" }));
     for (var i = 1; i <= dd.dim; i++) cells.push(h("div", { class: "d" + (i === dd.di ? " on" : "") }, h("span", { text: String(i) })));
     var mapHref = safeUrl(cfg.event.mapUrl);
     var venue = h("section", { class: "venue" }, [

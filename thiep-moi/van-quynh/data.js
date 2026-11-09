@@ -3,7 +3,7 @@
    hoặc mở thiệp bằng đường dẫn  ...?edit=1  để chỉnh bằng giao diện.
    ============================================================ */
 window.DEFAULT_CONFIG = {
-  storageKey: "thiep:van-quynh:v3",
+  storageKey: "thiep:van-quynh:v4",
 
   couple: {
     bride: "Quỳnh",
@@ -47,6 +47,7 @@ window.DEFAULT_CONFIG = {
 
   timeline: [
     { time: "15:00", title: "Đón khách" },
+    { time: "15:30", title: "Chụp ảnh kỉ niệm" },
     { time: "16:00", title: "Khai tiệc" }
   ],
 
@@ -75,16 +76,16 @@ window.DEFAULT_CONFIG = {
     phone: ""                    // ví dụ "0912345678"
   },
 
-  hero: "img/p04.jpg",
+  hero: "img/p07.jpg",           // DSC03403
   photos: {                      // ảnh của từng mục
     story: "img/p02.jpg",
-    invite: "img/p07.jpg",
+    invite: "img/p04.jpg",
     venue: "img/p09.jpg",
     closing: "img/p13.jpg"
   },
   gallery: [
-    "img/p01.jpg", "img/p02.jpg", "img/p03.jpg", "img/p04.jpg", "img/p05.jpg",
-    "img/p06.jpg", "img/p07.jpg", "img/p08.jpg", "img/p09.jpg", "img/p10.jpg",
+    "img/p07.jpg", "img/p01.jpg", "img/p02.jpg", "img/p03.jpg", "img/p04.jpg",
+    "img/p05.jpg", "img/p06.jpg", "img/p08.jpg", "img/p09.jpg", "img/p10.jpg",
     "img/p11.jpg", "img/p12.jpg", "img/p13.jpg"
   ],
 
