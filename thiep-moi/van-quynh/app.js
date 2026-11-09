@@ -234,7 +234,7 @@
         h("div", { class: "place" }, [cfg.event.venue, h("p", { text: cfg.event.address })]),
         mapHref ? h("a", { class: "pill", href: mapHref, target: "_blank", rel: "noopener", text: "📍 Xem chỉ đường" }) : null
       ]),
-      h("div", { class: "fams rv" }, ["bride", "groom"].map(function (k) {
+      h("div", { class: "fams rv" }, (cfg.familiesOrder || ["bride", "groom"]).map(function (k) {
         var f = cfg.families[k];
         return h("div", { class: "fam" }, [h("h4", { text: f.title }), h("p", { text: f.father }), h("p", { text: f.mother }), h("small", { text: f.address })]);
       }))
@@ -354,7 +354,7 @@
       h("button", { class: "x", type: "button", "aria-label": "Đóng", text: "×", onclick: function () { modal.classList.remove("on"); } }),
       h("h3", { class: "script", style: "font-size:38px", text: g.button }),
       h("p", { class: "s", text: g.text }),
-      !safeImg(g.qr) ? null : (g.qr === DEFAULT.gift.qr
+      !safeImg(g.qr) ? null : (g.qr === "img/qr.webp"
         ? h("div", { class: "qrbox" }, h("img", { src: safeImg(g.qr), alt: "Mã QR " + g.bank }))
         : h("img", { class: "qr", src: safeImg(g.qr), alt: "Mã QR " + g.bank })),
       h("div", { class: "bank", text: g.bank }), h("div", { class: "holder", text: g.holder }), h("div", { class: "num", text: g.number }),
@@ -484,6 +484,9 @@
     body.appendChild(group("Thời gian & địa điểm", [
       field("Ngày giờ (dương lịch)", "event.dateISO", "datetime-local"), field("Âm lịch", "event.lunar"),
       field("Tên địa điểm", "event.venue"), field("Địa chỉ", "event.address"), field("Link Google Maps", "event.mapUrl", "url")
+    ]));
+    body.appendChild(group("Thứ tự hai họ", [
+      h("label", { class: "chk" }, [h("input", { type: "checkbox", checked: (cfg.familiesOrder || [])[0] === "groom" ? "" : null, onchange: function (e) { cfg.familiesOrder = e.target.checked ? ["groom", "bride"] : ["bride", "groom"]; changed(); } }), "Nhà trai đứng bên trái"])
     ]));
     ["bride", "groom"].forEach(function (k) {
       var p = "families." + k + ".";
