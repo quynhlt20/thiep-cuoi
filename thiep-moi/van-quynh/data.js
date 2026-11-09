@@ -41,7 +41,7 @@ window.DEFAULT_CONFIG = {
       title: "Nhà trai",
       father: "Ông Nguyễn Đức Chình",
       mother: "Bà Nguyễn Thị Chín",
-      address: "Quỳnh Phụ, Thái Bình"
+      address: "Xã Quỳnh Phụ, tỉnh Hưng Yên"
     }
   },
 
