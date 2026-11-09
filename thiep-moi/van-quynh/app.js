@@ -130,6 +130,8 @@
         h("img", { class: "bgimg", src: "img/envelope.webp", alt: "Thiệp mời cưới " + n[0] + " & " + n[1] }),
         h("div", { class: "patch" }),
         h("div", { class: "nm", text: n[0] + " & " + n[1] }),
+        h("div", { class: "patch2" }),
+        h("div", { class: "nm2", text: "Quý khách" }),
         h("button", { class: "sealbtn", type: "button", "aria-label": "Mở thiệp" })
       ]),
       h("div", { class: "env-hint", text: "CHẠM VÀO DẤU SÁP ĐỂ MỞ THIỆP" })
