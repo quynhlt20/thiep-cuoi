@@ -3,6 +3,7 @@
   var DEFAULT = window.DEFAULT_CONFIG;
   var KEY = DEFAULT.storageKey;
   var params = new URLSearchParams(location.search);
+  var inviteeName = (params.get("ten") || "").replace(/\s+/g, " ").trim();
   var EDIT = params.get("edit") === "1";
   var SVGNS = "http://www.w3.org/2000/svg";
 
@@ -28,8 +29,8 @@
     return e;
   }
   function safeUrl(u) { if (!u) return ""; try { var x = new URL(u, location.href); return /^https?:$/.test(x.protocol) ? x.href : ""; } catch (e) { return ""; } }
-  function safeImg(u) { return /^(img\/|data:image\/(jpeg|png|webp);base64,|https?:\/\/)/.test(u || "") ? u : ""; }
-  function safeAudio(u) { return /^(audio\/[\w\-.\/]+\.(mp3|m4a|ogg|wav)|https:\/\/\S+)$/i.test(u || "") ? u : ""; }
+  function safeImg(u) { return /^((\.\.\/[\w\-]+\/)?img\/|data:image\/(jpeg|png|webp);base64,|https?:\/\/)/.test(u || "") ? u : ""; }
+  function safeAudio(u) { return /^((\.\.\/[\w\-]+\/)?audio\/[\w\-.\/]+\.(mp3|m4a|ogg|wav)|https:\/\/\S+)$/i.test(u || "") ? u : ""; }
   function toast(msg) { var t = document.getElementById("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove("on"); }, 2600); }
   function pad(n) { return String(n).padStart(2, "0"); }
   var WEEK = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
@@ -131,7 +132,7 @@
         h("div", { class: "patch" }),
         h("div", { class: "nm", text: n[0] + " & " + n[1] }),
         h("div", { class: "patch2" }),
-        h("div", { class: "nm2", text: "Quý khách" }),
+        h("div", { class: "nm2", text: inviteeName || "Quý khách" }),
         h("button", { class: "sealbtn", type: "button", "aria-label": "Mở thiệp" })
       ]),
       h("div", { class: "env-hint", text: "CHẠM VÀO DẤU SÁP ĐỂ MỞ THIỆP" })
